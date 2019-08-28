@@ -1,0 +1,9 @@
+erver:
+  port: 8080
+spring:
+  application:
+    name: cloud-consumer #为你的应用起个名字，该名字将注册到eureka注册中心
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8671/eureka/ #去哪里注册，eureka服务地址
