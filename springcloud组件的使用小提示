@@ -1,0 +1,48 @@
+springcloud的主要的组件的作用：
+
+一、//在注册中心使用
+eureka server:作用是注册中心，用于存放生产者(eureka client)的注册信息
+
+二、//生产者和消费者使用
+eureka clinet：作用是生产者，向server注册自己的信息，供消费者使用
+
+三、//这两个是在客服端使用的
+ribbon:客户端负载均衡，使用的步骤，在消费者的main类中需要将RestTemplete注入到容器中，需要加@LoadBlance负载均衡的注解
+feign:也是客户端负载均衡，它是ribbon的改良版，功能ribbon是一样的，只是ribbon可以直观的看到该类是通过Http请求在，请求另一个类，而feign是感受不到，它在请求另一个服务，它是通过一个注解@FeignClient
+(ribbon、feign 与nginx的区别。前者是如果某一个进程处理不了该请求， nginx是量的分配)
+
+四、//路由：在server和consumer上使用
+zuul:作用是路由，提供统一的外部访问接口
+使用步骤：
+   1、在server中，添加相应的maven坐标，在main类上添加@EnableZuulProxy；
+   2、在server的yml配置文件中：
+  zuul:
+    prefix: /techouse #为zuul设置一个公共的前缀
+    #ignoredServices: '*'
+    routes:
+      cloud-client: #随便定义，当不存在serviceId时，默认该值为serviceId（就是注册服务的名称，属性spring.application.name）
+        path: /usersystem/** #匹配/techouse/usersystem/** 均路由到cloud-client
+         serviceId: cloud-client #指定路由到的serviceId
+  ribbon:
+    eureka:
+      enabled: false #配置zuul路由时用将此属性设置为false
+   3、在client上添加路由的坐标，在main中添加开启路由的注解
+ 
+ 五、//熔断器：使用是在生产者
+ hystrix：熔断器作用是当方法报错或抛异常的时候，可以转接到另外的方法上，
+ 
+ 六、使用git管理配置文件
+ config server：作用是管理所有的配置文件
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
