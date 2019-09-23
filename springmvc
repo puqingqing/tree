@@ -1,0 +1,41 @@
+web.xml中的配置
+
+<!-- 配置contextConfigLocation初始化参数 -->
+<context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>/WEB-INF/applicationContext.xml</param-value>
+</context-param>
+<!-- 配置ContextLoaderListerner -->
+<listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+</listener>
+
+
+<!-- servlet定义 -->
+<servlet>
+    <servlet-name>dispatcher</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+</servlet>
+<servlet-mapping>
+    <servlet-name>dispatcher</servlet-name>
+    <url-pattern>/</url-pattern>
+</servlet-mapping>
+
+application.xml中的配置：
+
+
+<!-- 对模型视图名称的解析,即在模型视图名称添加前后缀 -->
+<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/WEB-INF/jsp/" />
+    <property name="suffix" value=".jsp" />
+</bean>
+
+
+配置上传文件限制MultipartResolver
+<!-- 上传限制 -->
+<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+     <!-- 上传文件大小限制为31M，31*1024*1024 -->
+     <property name="maxUploadSize" value="32505856"/>
+</bean>
+
